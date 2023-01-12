@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/qgisfabricupdate" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
