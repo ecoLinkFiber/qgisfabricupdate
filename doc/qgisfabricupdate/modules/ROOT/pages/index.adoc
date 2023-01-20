@@ -1,0 +1,86 @@
+QGIS Fabric Update
+==================
+qgisfabricupdate
+:doctype: book
+:toc:
+//:numbered:
+//:sectnums:
+
+== Summary
+
+Summary
+
+=== Download the BDC Fabric Data for your Counties
+
+[source,bash]
+----
+wget https://cqafabric.s3.amazonaws.com/....
+mkdir /tmp/fabric
+unzip ....zip -d /tmp/fabric
+Archive:  .....zip
+  inflating: /tmp/fabric/FCC_Active_06302022_ver1.csv  
+  inflating: /tmp/fabric/FCC_Secondary_06302022_ver1.csv  
+----
+
+=== Download Census 2010 Shapefiles (for CAF II Auction)
+
+[source,bash]
+----
+wget https://www2.census.gov/geo/tiger/TIGER2017/TABBLOCK/tl_2017_40_tabblock10.zip # For Oklahoma
+mkdir /tmp/census_2010_oklahoma
+unzip ~/Downloads/tl_2017_40_tabblock10.zip -d /tmp/census_2010_oklahoma/
+----
+
+*TODO* This needs to go lower in the document, and done from within QGIS.
+
+Keep the 10 counties corresponding to the counties in our fabric data, and delete all other Oklahoma census blocks.
+
+[source,sql]
+----
+/*
+  Creek-40037
+  Hughes-40063
+  Lincoln-40081
+  McIntosh-40091
+  Muskogee-40101
+  Okfuskee-40107
+  Okmulgee-40111
+  Seminole-40133
+  Tulsa-40143
+  Wagoner-40145
+*/
+delete from
+  census_2010
+where
+  (
+    countyfp10 != '037' and
+    countyfp10 != '063' and
+    countyfp10 != '081' and
+    countyfp10 != '091' and
+    countyfp10 != '101' and
+    countyfp10 != '107' and
+    countyfp10 != '111' and
+    countyfp10 != '133' and
+    countyfp10 != '143' and
+    countyfp10 != '145'
+  )
+;
+----
+
+== QGIS Project Setup
+
+Install _QGIS_ from https://qgis.org/en/site/forusers/download.html.
+
+The following assumes that QGIS version 3.22 is installed.
+
+=== Geopackage Setup
+
+Start _QGIS_ with a new or blank project. Right click on _GeoPackage_ in the _Browser_ window. Select _Create Database_.
+
+image:qgis-geopackage-create-database.png[]
+
+In the details popup window, type *reporting-2022-q4* (or the year and quarter that's appropriate) into the _Database_ field. Type *na* into the _Table name_ field, and select *No Geometry* for the _Geometry Type_.
+
+Click _OK_.
+
+Remove the _na_ layer. Right click on _na_ in the _Layers_ window and select _Remove Layer_.

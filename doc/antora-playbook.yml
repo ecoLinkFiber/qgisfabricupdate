@@ -1,0 +1,19 @@
+antora:
+  extensions:
+  - '@antora/lunr-extension'
+site:
+  title: QGIS Fabric Update Documentation
+  start_page: qgisfabricupdate::index.adoc
+content:
+  sources:
+  - url: ..
+    start_path: doc/qgisfabricupdate
+    branches: master
+    edit_url: false
+ui:
+  bundle:
+    url: ui/build/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./supplemental_ui
+output:
+  dir: build/
